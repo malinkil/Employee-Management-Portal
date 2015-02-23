@@ -27,7 +27,7 @@ import javax.sql.DataSource;
 @JdbcEmployeeRepository
 public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
 
-    @Resource(lookup = "jdbc/msshah73Mp2DS")
+    @Resource(lookup = "jdbc/mshah73Mp2DS")
     private DataSource dataSource;
 
     public JdbcEmployeeRepositoryImpl() {
@@ -36,7 +36,7 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
     @Override
     public Collection<Employee> findAll() {
 
-        List<Employee> customers = new ArrayList<>();
+        List<Employee> employee = new ArrayList<>();
 
         try (Connection c = dataSource.getConnection()) {
 
@@ -44,7 +44,7 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
             ResultSet rs = s.executeQuery("select * from employees");
 
             while (rs.next()) {
-                customers.add(new Employee(rs.getLong("emp_no"),
+                employee.add(new Employee(rs.getLong("emp_no"),
                         rs.getString("first_name"),
                         rs.getString("last_name")));
             }
@@ -53,10 +53,10 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
             Logger.getLogger(JdbcEmployeeRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (customers.isEmpty()) {
+        if (employee.isEmpty()) {
             return null;
         } else {
-            return customers;
+            return employee;
         }
     }
 

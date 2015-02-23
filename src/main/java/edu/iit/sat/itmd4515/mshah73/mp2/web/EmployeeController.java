@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Maulik
  */
 @WebServlet(name = "EmployeeController", urlPatterns = 
-        {"/employee","employees"})
+        {"/employee","/employees"})
 public class EmployeeController extends HttpServlet {
 
     @Inject
@@ -47,10 +47,10 @@ public class EmployeeController extends HttpServlet {
             case "/employees":
                 LOG.info("Dispatching to /employees");
                 request.setAttribute("employees", svc.findEmployee());
-                request.getRequestDispatcher("/WEB-INF/pages/employeeInfo/employeeData.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/employeeInfo/employeeData.jsp").forward(request, response);
                 break;
             case "/employee":
-                LOG.info("Dispatching to /customer");
+                LOG.info("Dispatching to /employees");
                 
                 if(WebUtil.isEmpty(request.getParameter("id"))){
                     LOG.warning("ID was not passed as a parameter.");
@@ -60,7 +60,7 @@ public class EmployeeController extends HttpServlet {
                 
                 Long id = Long.parseLong(request.getParameter("id"));
                 request.setAttribute("customer", svc.findEmployee(id));
-                request.getRequestDispatcher("/WEB-INF/pages/employeeInfo/employeeData.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/employeeInfo/employeeData.jsp").forward(request, response);
                 break;
         }
         
