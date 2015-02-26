@@ -5,10 +5,15 @@
  */
 package edu.iit.sat.itmd4515.mshah73.mp2.web;
 
+import edu.iit.sat.itmd4515.mshah73.mp2.model.Employee;
 import edu.iit.sat.itmd4515.mshah73.mp2.service.ErmService;
 import edu.iit.sat.itmd515.mshah73.util.WebUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -25,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Maulik
  */
 @WebServlet(name = "EmployeeController", urlPatterns = 
-        {"/employee","/employees"})
+        {"/employee","/employees","/create","/save"})
 public class EmployeeController extends HttpServlet {
 
     @Inject
@@ -41,16 +46,17 @@ public class EmployeeController extends HttpServlet {
         LOG.info("Inside doGet");
 
         Map<String,String> messages = new HashMap<>();
+        Date dbDate = null;
         request.setAttribute("messages", messages);
         
         switch (request.getServletPath()) {
             case "/employees":
                 LOG.info("Dispatching to /employees");
                 request.setAttribute("employees", svc.findEmployee());
-                request.getRequestDispatcher("/WEB-INF/employeeInfo/employeeData.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/webpages/employeeInfo/employeeList.jsp").forward(request, response);
                 break;
             case "/employee":
-                LOG.info("Dispatching to /employees");
+                LOG.info("Dispatching to /employee");
                 
                 if(WebUtil.isEmpty(request.getParameter("id"))){
                     LOG.warning("ID was not passed as a parameter.");
@@ -59,8 +65,40 @@ public class EmployeeController extends HttpServlet {
                 }
                 
                 Long id = Long.parseLong(request.getParameter("id"));
-                request.setAttribute("customer", svc.findEmployee(id));
-                request.getRequestDispatcher("/WEB-INF/employeeInfo/employeeData.jsp").forward(request, response);
+                request.setAttribute("employee", svc.findEmployee(id));
+                request.getRequestDispatcher("/WEB-INF/webpages/employeeInfo/employeeData.jsp").forward(request, response);
+                break;
+                case "/create":
+                LOG.info("Dispatching to /employees");
+                //request.setAttribute("employees", svc.findEmployee());
+                request.getRequestDispatcher("/WEB-INF/webpages/newEmployee/createEmployee.jsp").forward(request, response);
+                break;
+                case "/save":
+                LOG.info("Dispatching to /save");
+                
+                
+                
+                String fname = request.getParameter("first_name");
+                String lname = request.getParameter("last_name");
+                String dname = request.getParameter("dept_name");
+                String gender = request.getParameter("gender");
+                String date = request.getParameter("date");
+                
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                
+        {
+            try {
+                date = dateFormat.format(dateFormat.parse(date));
+            } catch (ParseException ex) {
+                Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+                
+                
+                Employee emp = new Employee(fname,lname,dname,gender,date);
+                
+                Boolean result = svc.saveEmployee(emp);
+                request.getRequestDispatcher("/WEB-INF//webpages/employeeInfo/employeeData.jsp").forward(request, response);
                 break;
         }
         
@@ -78,13 +116,7 @@ public class EmployeeController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        if (LOG.isLoggable(Level.FINEST)) {
-            LOG.finest("Inside doPost");
-        }
-
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<h1>I am doPost");
-        }
+        doGet(request, response);
     }
 
     /**

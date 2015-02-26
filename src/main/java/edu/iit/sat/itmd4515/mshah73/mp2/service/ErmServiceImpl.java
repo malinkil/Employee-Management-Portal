@@ -10,6 +10,7 @@ import edu.iit.sat.itmd4515.mshah73.mp2.repository.EmployeeRepository;
 import edu.iit.sat.itmd4515.mshah73.mp2.repository.jdbc.JdbcEmployeeRepository;
 import java.util.Collection;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -34,6 +35,12 @@ public class ErmServiceImpl implements ErmService {
     public Employee findEmployee(Long id) {
         return employeeRepository.findById(id);
     }
+    
+     @Override
+    public Boolean saveEmployee(Employee emp) {
+        return employeeRepository.saveEmployeeInfo(emp);
+    }
+
 
     
 }

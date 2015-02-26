@@ -7,6 +7,7 @@ package edu.iit.sat.itmd4515.mshah73.mp2.service;
 
 import edu.iit.sat.itmd4515.mshah73.mp2.model.Employee;
 import java.util.Collection;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -15,4 +16,5 @@ import java.util.Collection;
 public interface ErmService {
     Collection<Employee> findEmployee();
     Employee findEmployee(Long id);
+    Boolean saveEmployee(Employee employee);
 }

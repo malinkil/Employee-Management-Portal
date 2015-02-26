@@ -1,0 +1,24 @@
+<%-- any content can b
+e specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+
+    <footer class="text-center">
+        <div class="footer-below" style="position: fixed;  bottom: 0;  width: 100%;  height: 60px;  background-color: #000000;color:#ffffff">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4" style="margin-top: 27px;">
+                        Developer : Maulik Shah
+                    </div>  
+                    <div class="col-lg-4" style="margin-top: 27px;">
+                       CWID : A20339128
+                     </div> 
+                    <div class="col-lg-4" style="margin-top: 27px;">
+                       University: IIT-CHICAGO
+                     </div> 
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+  </body>
+</html>

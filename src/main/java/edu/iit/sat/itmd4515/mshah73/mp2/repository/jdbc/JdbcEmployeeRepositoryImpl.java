@@ -48,7 +48,7 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
         try (Connection c = dataSource.getConnection()) {
 
             Statement s = c.createStatement();
-            ResultSet rs = s.executeQuery("select * from employees");
+            ResultSet rs = s.executeQuery("select  * from employees ORDER BY EMP_NO DESC LIMIT 100;");
 
             while (rs.next()) {
                 employee.add(new Employee(rs.getLong("emp_no"),
@@ -73,8 +73,6 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
         try (Connection c = dataSource.getConnection()) {
             PreparedStatement ps = c.prepareStatement("select * from employees where emp_no = ?");
             ps.setLong(1, id);
- 
-
            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Employee(rs.getLong("emp_no"),
@@ -98,17 +96,29 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
         String bdate = null;
         String currentDate = null;
         
-        int id = 0;
+        int emp_id = 0;
+        int dept_id = 0;
         boolean isSave = false;
         
            try (Connection c = dataSource.getConnection()) {
             
             Statement statement = c.createStatement();
             
+            /**
+             * Query toget max id toinsert new employee record
+             */
             ResultSet rs = statement.executeQuery("select * from employees;");
+             while (rs.next()) {
+               emp_id = rs.getInt("emp_no");
+            }
+            
+            /**
+             * Query to get max department id to insert record into department table
+             */
+            rs = statement.executeQuery("select * from departments;");
 
             while (rs.next()) {
-               id = rs.getInt("emp_no");
+               dept_id = rs.getInt("dept_no");
             }
             
             
@@ -120,15 +130,36 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
             gender = employee.getEmpGender();
             
             LOG.info(gender);
-                    
-            id= id+1;
             
+            /**
+             * Make operation of addition(i.e ID +1) on id to insert new row into table
+             */
+            emp_id= emp_id+1;
+            dept_id= dept_id+1;
+            
+            /**
+             * Call method getCurrentdate in order to get current date into  table employees
+             */
             currentDate = getCurrentDate();
             
             LOG.info("Date 2"+currentDate);
        
-            
-           statement.executeUpdate("INSERT INTO employees " + "VALUES ("+id +",'"+bdate +"','"+fName +"','"+lName +"','"+gender +"','"+currentDate +"')");
+            /**
+             * Insert records into employees table
+             */
+           statement.executeUpdate("INSERT INTO employees " + "VALUES ("+emp_id +",'"+bdate +"','"+fName +"','"+lName +"','"+gender +"','"+currentDate +"')");
+          /**
+           * Insert records ino departments table
+           */
+            statement.executeUpdate("INSERT INTO departments " + "VALUES ("+dept_id +",'"+deptName +"')");
+           /**
+            * Insert record into dept_emp table
+            */
+           statement.executeUpdate("INSERT INTO dept_emp(emp_no,dept_no)" + "VALUES ("+emp_id +","+dept_id +")");
+           
+           /**
+            * Set the flag true on successful insertion on all three records
+            */
            isSave = true;
                    
            return isSave;

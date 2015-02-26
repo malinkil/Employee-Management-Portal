@@ -5,6 +5,8 @@
  */
 package edu.iit.sat.itmd4515.mshah73.mp2.model;
 
+import java.util.Date;
+
 /**
  *
  * @author Maulik
@@ -14,6 +16,10 @@ public class Employee {
     private Long employeeID;
     private String empFirstname;
     private String empLastName;
+    private String empDeptName;
+    private String empGender;
+    private String empBdate;
+   
     
     public Employee() {
     }
@@ -23,6 +29,34 @@ public class Employee {
         this.empFirstname = empFirstname;
         this.empLastName = empLastName;
     }
+   
+    public Employee(String empFirstname,String empLastName,String empDeptName,String empGender,String empBdate) {
+        this.empFirstname = empFirstname;
+        this.empLastName = empLastName;
+        this.empDeptName = empDeptName;
+        this.empGender = empGender;
+        this.empBdate = empBdate;
+    }
+    private String dept_name;
+
+    /**
+     * Get the value of dept_name
+     *
+     * @return the value of dept_name
+     */
+    public String getDept_name() {
+        return empDeptName;
+    }
+
+    /**
+     * Set the value of dept_name
+     *
+     * @param dept_name new value of dept_name
+     */
+    public void setDept_name(String empDeptName) {
+        this.empDeptName = empDeptName;
+    }
+
 
     /**
      * Get the value of empFirstname
@@ -80,10 +114,28 @@ public class Employee {
         this.employeeID = employeeID;
     }
 
+    public String getEmpGender() {
+        return empGender;
+    }
+
+    public void setEmpGender(String empGender) {
+        this.empGender = empGender;
+    }
+
+    public String getEmpBdate() {
+        return empBdate;
+    }
+
+    public void setEmpBdate(String empBdate) {
+        this.empBdate = empBdate;
+    }
+
     @Override
     public String toString() {
-        return "Employee{" + "employeeID=" + employeeID + ", empFirstname=" + empFirstname + ", empLastName=" + empLastName + '}';
+        return "Employee{" + "employeeID=" + employeeID + ", empFirstname=" + empFirstname + ", empLastName=" + empLastName + ", empDeptName=" + empDeptName + ", empGender=" + empGender + ", empBdate=" + empBdate + ", dept_name=" + dept_name + '}';
     }
+
+ 
   
     
 }
