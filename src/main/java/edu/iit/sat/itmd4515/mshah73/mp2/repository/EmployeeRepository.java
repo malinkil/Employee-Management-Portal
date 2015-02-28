@@ -17,4 +17,6 @@ public interface EmployeeRepository {
     Collection<Employee> findAll();
     Employee findById(Long id);
     Boolean saveEmployeeInfo(Employee employee);
+    Boolean updateEmployeeInfo(Employee employee);
+    Boolean deleteEmployeeInfo(Long id);
 }

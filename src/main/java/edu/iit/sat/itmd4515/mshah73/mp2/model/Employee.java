@@ -24,10 +24,18 @@ public class Employee {
     public Employee() {
     }
    
-   public Employee(Long employeeID, String empFirstname, String empLastName) {
+   public Employee(Long employeeID, String empFirstname, String empLastName,String empDeptName) {
         this.employeeID = employeeID;
         this.empFirstname = empFirstname;
         this.empLastName = empLastName;
+        this.empDeptName = empDeptName;
+    }
+   
+    public Employee(Long employeeID, String empFirstname, String empLastName) {
+        this.employeeID = employeeID;
+        this.empFirstname = empFirstname;
+        this.empLastName = empLastName;
+       
     }
    
     public Employee(String empFirstname,String empLastName,String empDeptName,String empGender,String empBdate) {
@@ -67,15 +75,13 @@ public class Employee {
         return empFirstname;
     }
 
-    /**
-     * Set the value of empFirstname
-     *
-     * @param empFirstname new value of empFirstname
-     */
-    public void setEmpFirstname(String empFirstname) {
-        this.empFirstname = empFirstname;
+    public String getEmpDeptName() {
+        return empDeptName;
     }
-    
+
+    public void setEmpDeptName(String empDeptName) {
+        this.empDeptName = empDeptName;
+    }
 
     /**
      * Get the value of empLastName

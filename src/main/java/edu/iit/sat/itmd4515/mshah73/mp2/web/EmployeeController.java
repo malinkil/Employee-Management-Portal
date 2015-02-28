@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Maulik
  */
 @WebServlet(name = "EmployeeController", urlPatterns = 
-        {"/employee","/employees","/create","/save"})
+        {"/employee","/employees","/create","/save","/updatereq","/deletereq"})
 public class EmployeeController extends HttpServlet {
 
     @Inject
@@ -68,16 +68,61 @@ public class EmployeeController extends HttpServlet {
                 request.setAttribute("employee", svc.findEmployee(id));
                 request.getRequestDispatcher("/WEB-INF/webpages/employeeInfo/employeeData.jsp").forward(request, response);
                 break;
-                case "/create":
-                LOG.info("Dispatching to /employees");
+            case "/create":
+                LOG.info("Dispatching to /createEMployee");
                 //request.setAttribute("employees", svc.findEmployee());
                 request.getRequestDispatcher("/WEB-INF/webpages/newEmployee/createEmployee.jsp").forward(request, response);
                 break;
-                case "/save":
+            case "/updatereq":
+                LOG.info("Dispatching to /employees");
+                
+                if(WebUtil.isEmpty(request.getParameter("id"))){
+                    LOG.warning("ID was not passed as a parameter.");
+                    messages.put("No ID Error", "This is a     from your controller.  Please enter an ID.");
+                    throw new ServletException("No ID was passed.  Try again!");
+                }
+                
+                Long updateId = Long.parseLong(request.getParameter("id"));
+                request.setAttribute("upEmployee", svc.findEmployee(updateId));
+                request.getRequestDispatcher("/WEB-INF/webpages/updateEmployee/updateEmp.jsp").forward(request, response);
+                break;
+            case "/updateAction":
+                LOG.info("Dispatching to /updateAction");
+                
+                if(WebUtil.isEmpty(request.getParameter("id"))){
+                 LOG.warning("ID was not passed as a parameter.");
+                 messages.put("No ID Error", "This is a     from your controller.  Please enter an ID.");
+                 throw new ServletException("No ID was passed.  Try again!");
+             }
+
+               Long updateActId = Long.parseLong(request.getParameter("id"));
+                
+                String upFname = request.getParameter("first_name");
+                String upLname = request.getParameter("last_name");
+                String upDname = request.getParameter("dept_name");
+                
+                
+                
+                Employee upEmp = new Employee(updateActId,upFname,upLname,upDname);
+                
+                Boolean upResult = svc.updateEmployee(upEmp);
+                request.getRequestDispatcher("/WEB-INF/webpages/employeeInfo/employeeList.jsp").forward(request, response);
+                break;
+            case "/deletereq":
+                LOG.info("Inside /deleteReq");
+                
+                if(WebUtil.isEmpty(request.getParameter("id"))){
+                    LOG.warning("ID was not passed as a parameter.");
+                    messages.put("No ID Error", "This is a     from your controller.  Please enter an ID.");
+                    throw new ServletException("No ID was passed.  Try again!");
+                }
+                
+                Long deleteId = Long.parseLong(request.getParameter("id"));
+                request.setAttribute("deleteEmployee", svc.deleteEmployee(deleteId));
+                request.getRequestDispatcher("/WEB-INF/webpages/employeeInfo/employeeList.jsp").forward(request, response);
+                break;
+            case "/save":
                 LOG.info("Dispatching to /save");
-                
-                
-                
                 String fname = request.getParameter("first_name");
                 String lname = request.getParameter("last_name");
                 String dname = request.getParameter("dept_name");

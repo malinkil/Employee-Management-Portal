@@ -41,6 +41,14 @@ public class ErmServiceImpl implements ErmService {
         return employeeRepository.saveEmployeeInfo(emp);
     }
 
+    @Override
+    public Boolean updateEmployee(Employee upEmployee) {
+        return employeeRepository.updateEmployeeInfo(upEmployee);
+    }
+ @Override
+    public Boolean deleteEmployee(Long id) {
+        return employeeRepository.deleteEmployeeInfo(id);
+    }
 
     
 }

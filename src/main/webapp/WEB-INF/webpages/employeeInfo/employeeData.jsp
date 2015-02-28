@@ -7,8 +7,9 @@
     <a href="#" class="list-group-item clearfix">
         <c:if test="${not empty requestScope.employee}">
         
-            <p>${requestScope.employee.empFirstname}</p>
-            <p>${requestScope.employee.empLastName}</p>     
+            <p>FIrst name :${requestScope.employee.empFirstname}</p>
+            <p>Last name :${requestScope.employee.empLastName}</p>     
+            <p>Department  name :${requestScope.employee.empDeptName}</p> 
         </c:if>
     </a>
   </div>

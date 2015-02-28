@@ -17,4 +17,6 @@ public interface ErmService {
     Collection<Employee> findEmployee();
     Employee findEmployee(Long id);
     Boolean saveEmployee(Employee employee);
+     Boolean updateEmployee(Employee employee);
+     Boolean deleteEmployee(Long id);
 }
