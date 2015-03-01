@@ -3,7 +3,7 @@
 <%@include file="/WEB-INF/header.jspf" %>
 
 <form class="form-horizontal" action="save" method="POST">
-    <h4 style="margin-left: 5px">Employee Information</h4><hr>
+    <h4 style="margin-left: 5px">Enter New Employee Information</h4><hr>
   <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">First Name: </label>
     <div class="col-sm-10">
@@ -49,5 +49,8 @@
       <button type="submit"  class="btn btn-primary">Create</button>
     </div>
   </div>
+    <c:if test="${not empty requestScope.newEmp}">
+        <div style="margin-left: 315px;font-size:17px;padding:10px;font-weight: bold;color: green;font-style: italic">Employee created successfully</div> 
+    </c:if>
 </form>
 <%@include file="/WEB-INF/footer.jspf" %>

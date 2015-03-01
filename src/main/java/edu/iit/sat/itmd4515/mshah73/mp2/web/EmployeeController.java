@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Maulik
  */
 @WebServlet(name = "EmployeeController", urlPatterns = 
-        {"/employee","/employees","/create","/save","/updatereq","/deletereq"})
+        {"/employee","/employees","/create","/home","/save","/updatereq","/updateAction","/deletereq"})
 public class EmployeeController extends HttpServlet {
 
     @Inject
@@ -73,8 +73,13 @@ public class EmployeeController extends HttpServlet {
                 //request.setAttribute("employees", svc.findEmployee());
                 request.getRequestDispatcher("/WEB-INF/webpages/newEmployee/createEmployee.jsp").forward(request, response);
                 break;
+            case "/home":
+                LOG.info("Dispatching to /createEMployee");
+                
+                request.getRequestDispatcher("/WEB-INF/webpages/homepage/home.jsp").forward(request, response);
+                break;
             case "/updatereq":
-                LOG.info("Dispatching to /employees");
+                LOG.info("Dispatching to /updatereq");
                 
                 if(WebUtil.isEmpty(request.getParameter("id"))){
                     LOG.warning("ID was not passed as a parameter.");
@@ -101,11 +106,11 @@ public class EmployeeController extends HttpServlet {
                 String upLname = request.getParameter("last_name");
                 String upDname = request.getParameter("dept_name");
                 
-                
-                
                 Employee upEmp = new Employee(updateActId,upFname,upLname,upDname);
                 
                 Boolean upResult = svc.updateEmployee(upEmp);
+                request.setAttribute("updtEmpoloyee", upResult);
+                request.setAttribute("employees", svc.findEmployee());
                 request.getRequestDispatcher("/WEB-INF/webpages/employeeInfo/employeeList.jsp").forward(request, response);
                 break;
             case "/deletereq":
@@ -118,7 +123,9 @@ public class EmployeeController extends HttpServlet {
                 }
                 
                 Long deleteId = Long.parseLong(request.getParameter("id"));
-                request.setAttribute("deleteEmployee", svc.deleteEmployee(deleteId));
+                boolean isDeleted = svc.deleteEmployee(deleteId);
+                request.setAttribute("delEmpoloyee", isDeleted);
+                request.setAttribute("employees", svc.findEmployee());
                 request.getRequestDispatcher("/WEB-INF/webpages/employeeInfo/employeeList.jsp").forward(request, response);
                 break;
             case "/save":
@@ -143,7 +150,11 @@ public class EmployeeController extends HttpServlet {
                 Employee emp = new Employee(fname,lname,dname,gender,date);
                 
                 Boolean result = svc.saveEmployee(emp);
-                request.getRequestDispatcher("/WEB-INF//webpages/employeeInfo/employeeData.jsp").forward(request, response);
+                if(result){
+                    request.setAttribute("newEmp",result);
+                    request.getRequestDispatcher("/WEB-INF/webpages/newEmployee/createEmployee.jsp").forward(request, response);
+                
+                }
                 break;
         }
         

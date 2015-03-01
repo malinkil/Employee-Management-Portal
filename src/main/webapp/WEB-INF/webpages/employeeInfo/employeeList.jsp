@@ -5,19 +5,31 @@
   <div class="list-group">
       <h1>Employee Information</h1>
        <ul style="list-style-type: none;padding: 1px;">
+    <c:if test="${not empty requestScope.updtEmpoloyee}">
+       <div style="padding:10px;font-weight: bold;color: green;font-style: italic">Record deletedssss successfully</div> 
+   </c:if>
+    <c:if test="${not empty requestScope.delEmpoloyee}">
+        <div style="padding:10px;font-weight: bold;color: green;font-style: italic">Record updated successfully</div> 
+    </c:if>
     <c:forEach items="${requestScope.employees}" var="employee">
         <li style="margin-bottom: 12px;">
-        <a href="employee?id=${employee.employeeID}" class="list-group-item clearfix">
+        <a style="background-color: #F6F2FC;" href="employee?id=${employee.employeeID}" class="list-group-item clearfix">
             <c:out value="${employee.empFirstname}"/> ${employee.empLastName}
 
            <span class="pull-right"> 
-               <form action="updatereq?id=${employee.employeeID}" method="POST">
-                    <input type="submit" value="UPDATE">
+            <form action="updatereq?id=${employee.employeeID}" method="POST">
+                    <input style="border-radius: 10px;width: 80px;
+                    padding: 8px;
+                    background-color: #644A8C;
+                    color: white;" type="submit" value="Update">
             </form>
            </span>
            <span class="pull-right" style="margin-right: 16px">
-           <form id="deleteForm"  action="deletereq?id=${employee.employeeID}" method="POST">
-               <input type="submit" onclick="deleteFunction()" value="DELETE">
+           <form id="deleteForm" onsubmit="return deleteFunction();" action="deletereq?id=${employee.employeeID}" method="POST">
+               <input style="border-radius: 10px;width: 80px;
+                    padding: 8px;
+                    background-color: #644A8C;
+                    color: white;" type="submit"  value="Delete">
             </form>
           </span>
        </a></li>
@@ -29,8 +41,12 @@
 function deleteFunction() {
     var x;
     if (confirm("Are you sure you want to delete this record?") == true) {
-        document.getElementById("deleteForm").submit();
-    } 
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 </script>
 <%@include file="/WEB-INF/footer.jspf" %>

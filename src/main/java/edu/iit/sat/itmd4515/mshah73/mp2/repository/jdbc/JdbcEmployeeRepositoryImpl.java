@@ -84,6 +84,23 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
                         rs.getString("e_lname"),
                 rs.getString("d_name"));
             }
+            else
+            {
+                /**
+                 * Case as some of the department entry is missing indept_emp table
+                 * So it only fetches the data from employees table
+                 */
+            Statement s = c.createStatement();
+            rs = s.executeQuery("select  * from employees where emp_no="+id);
+
+            while (rs.next()) {
+                return new Employee(rs.getLong("emp_no"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+               "Information missing");
+            }
+                
+            }
         } catch (SQLException ex) {
             Logger.getLogger(JdbcEmployeeRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -104,9 +121,19 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
         int emp_id = 0;
         String dept_id = null;
         boolean isSave = false;
+        boolean isDepPresent = false;
         
            try (Connection c = dataSource.getConnection()) {
+               
+               /**
+                * Retrive all data from Model Employee
+                */
             
+            fName = employee.getEmpFirstname();
+            lName = employee.getEmpLastName();
+            deptName = employee.getDept_name();
+            bdate = employee.getEmpBdate();
+            gender = employee.getEmpGender();
             Statement statement = c.createStatement();
             
             /**
@@ -117,35 +144,41 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
                emp_id = rs.getInt("maxID");
             }
             
-            /**
-             * Query to get max department id to insert record into department table
-             */
-            rs = statement.executeQuery("select max(dept_no) Deptid from departments;");
+             /**
+              * First check whether department is already in tableor not.
+              */
+             
+             rs = statement.executeQuery("select dept_no from departments where dept_name = '"+deptName+"';");
+             
+             if(rs.next())
+             {
+                    dept_id =  rs.getString("dept_no");
+                    isDepPresent= true; 
+             }
+             else
+             {      
+                    /**
+                    * Query to get max department id to insert record into department table
+                    */
+                   rs = statement.executeQuery("select max(dept_no) Deptid from departments;");
 
-            while (rs.next()) {
-               dept_id = rs.getString("Deptid");
-            }
-            
-            
-            
-            fName = employee.getEmpFirstname();
-            lName = employee.getEmpLastName();
-            deptName = employee.getDept_name();
-            bdate = employee.getEmpBdate();
-            gender = employee.getEmpGender();
-            
-            LOG.info(gender);
+                   while (rs.next()) {
+                      dept_id = rs.getString("Deptid");
+
+                      /**
+                      *  Form new deptid frommax dept id from departments table
+                      */
+                      int deptID = Integer.parseInt(dept_id.substring(1));
+                       deptID = deptID +1; 
+                       dept_id= "d"+deptID;
+               }
+             }
+
             
             /**
              * Make operation of addition(i.e ID +1) on id to insert new row into table
              */
             emp_id= emp_id+1;
-            
-            int deptID = Integer.parseInt(dept_id.substring(1));
-            deptID = deptID +1;
-            
-            dept_id= "d"+deptID;
-            
             /**
              * Call method getCurrentdate in order to get current date into  table employees
              */
@@ -158,14 +191,16 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
              */
            statement.executeUpdate("INSERT INTO employees " + "VALUES ("+emp_id +",'"+bdate +"','"+fName +"','"+lName +"','"+gender +"','"+currentDate +"')");
           /**
-           * Insert records ino departments table
+           * Insert records into departments table ONLY if its new department otherwise skip this insert query
            */
-            statement.executeUpdate("INSERT INTO departments " + "VALUES ('"+dept_id +"','"+deptName +"')");
-           /**
+           if(!isDepPresent){
+             statement.executeUpdate("INSERT INTO departments " + "VALUES ('"+dept_id +"','"+deptName +"')");
+           }
+            /**
             * Insert record into dept_emp table
             */
-            
-            LOG.info("INSERT INTO dept_emp " + " VALUES ("+emp_id +",'"+dept_id +"','"+currentDate +"','"+currentDate +"')");
+           
+           LOG.info("INSERT INTO dept_emp " + " VALUES ("+emp_id +",'"+dept_id +"','"+currentDate +"','"+currentDate +"')");
 
             statement.executeUpdate("INSERT INTO dept_emp " + " VALUES ("+emp_id +",'"+dept_id +"','"+currentDate +"','"+currentDate +"')");
            
@@ -216,22 +251,23 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
             /**
              * Extract dep_id from department table to fetch 
              */
-            String getDeptNo = "select dept_no  from dept_emp where emp_no =?";
+            String getDeptNo = "select dept_no from dept_emp where emp_no ="+empId;
+  
+           ResultSet rs = statement.executeQuery(getDeptNo);
             
-              PreparedStatement ps = c.prepareStatement(getDeptNo);
-              ps.setLong(1, empId);
-            
-           ResultSet rs = ps.executeQuery();
+         
             if (rs.next()) {
                dept_no = rs.getString("dept_no");
             }      
             
-            String updateEmployee = "update employees set first_name = '"+upFname+"' and last_name = '"+upLname+"'  where emp_no = "+empId+";";
+            String updateEmployee = "update employees set first_name = '"+upFname+"',last_name = '"+upLname+"'  where emp_no = "+empId+";";
             String updateDepartment = "update departments set dept_name = '"+upDname+"'  where dept_no = '"+dept_no+"' ";
             
             statement.executeUpdate(updateEmployee);
             statement.executeUpdate(updateDepartment);
             
+            isUpdate = true;
+            return isUpdate;
             
         } catch (SQLException ex) {
             Logger.getLogger(JdbcEmployeeRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
