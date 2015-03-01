@@ -5,10 +5,10 @@
   <div class="list-group">
       <h1>Employee Information</h1>
        <ul style="list-style-type: none;padding: 1px;">
-    <c:if test="${not empty requestScope.updtEmpoloyee}">
-       <div style="padding:10px;font-weight: bold;color: green;font-style: italic">Record deletedssss successfully</div> 
-   </c:if>
     <c:if test="${not empty requestScope.delEmpoloyee}">
+       <div style="padding:10px;font-weight: bold;color: red;font-style: italic">Record deleted successfully</div> 
+   </c:if>
+    <c:if test="${not empty requestScope.updtEmpoloyee}">
         <div style="padding:10px;font-weight: bold;color: green;font-style: italic">Record updated successfully</div> 
     </c:if>
     <c:forEach items="${requestScope.employees}" var="employee">

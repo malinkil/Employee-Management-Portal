@@ -136,24 +136,46 @@ public class EmployeeController extends HttpServlet {
                 String gender = request.getParameter("gender");
                 String date = request.getParameter("date");
                 
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 
-        {
-            try {
-                date = dateFormat.format(dateFormat.parse(date));
-            } catch (ParseException ex) {
-                Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+                LOG.info("fname "+fname);
+                LOG.info("Date "+date);
+
+                /**
+                 * Check for  server side validation for all user input field that is mandatory
+                 */
                 
-                
-                Employee emp = new Employee(fname,lname,dname,gender,date);
-                
-                Boolean result = svc.saveEmployee(emp);
-                if(result){
-                    request.setAttribute("newEmp",result);
+                if(fname.isEmpty() || lname.isEmpty() || dname.isEmpty() || gender == null  || date.isEmpty() )
+                {
+                    if(fname.isEmpty()){request.setAttribute("fnameReq","true");}
+                    if(lname.isEmpty()){request.setAttribute("lnameReq","true");}
+                    if(dname.isEmpty()){request.setAttribute("dnameReq","true");}
+                    if(gender == null){request.setAttribute("genderReq","true");}
+                    if(date.isEmpty()){request.setAttribute("dateReq","true");}
+                    
                     request.getRequestDispatcher("/WEB-INF/webpages/newEmployee/createEmployee.jsp").forward(request, response);
-                
+  
+                }
+                else
+                {
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                    {
+                        try {
+                            date = dateFormat.format(dateFormat.parse(date));
+                        } catch (ParseException ex) {
+                            Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+
+
+                    Employee emp = new Employee(fname,lname,dname,gender,date);
+
+                    Boolean result = svc.saveEmployee(emp);
+                    if(result){
+                        request.setAttribute("newEmp",result);
+                        request.getRequestDispatcher("/WEB-INF/webpages/newEmployee/createEmployee.jsp").forward(request, response);
+
+                    }
                 }
                 break;
         }

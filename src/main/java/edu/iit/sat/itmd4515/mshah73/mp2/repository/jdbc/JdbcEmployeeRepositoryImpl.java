@@ -309,6 +309,10 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
             statement.executeUpdate(deleteDepEmp);
             statement.executeUpdate(deleteDepartment);
             
+            isDelete = true;
+            
+            return isDelete;
+            
             
         } catch (SQLException ex) {
             Logger.getLogger(JdbcEmployeeRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
