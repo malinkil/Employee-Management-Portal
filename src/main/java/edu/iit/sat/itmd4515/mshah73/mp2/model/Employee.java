@@ -48,18 +48,18 @@ public class Employee {
     private String dept_name;
 
     /**
-     * Get the value of dept_name
+     * Get the value of empDeptName
      *
-     * @return the value of dept_name
+     * @return the value of empDeptName.
      */
     public String getDept_name() {
         return empDeptName;
     }
 
     /**
-     * Set the value of dept_name
+     * Set the value of empDeptName
      *
-     * @param dept_name new value of dept_name
+     * @param empDeptName new value of empDeptName.
      */
     public void setDept_name(String empDeptName) {
         this.empDeptName = empDeptName;

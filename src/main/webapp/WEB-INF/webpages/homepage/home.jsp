@@ -19,6 +19,10 @@
             <li style="background-color: #F6F2FC;" class="list-group-item">
                 <a  href="employees">List of Employees</a>
             </li>
+            <li style="background-color: #F6F2FC;" class="list-group-item">
+                <a  href="apidocs/index.html">Javadocs</a>
+            </li>
+            
         </ul>
 </div>
 

@@ -72,7 +72,7 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
     }
 /**
  * Method which returns single  employee details.
- * @param id
+ * @param id new value of id
  * @return individual employee detail.
  */
     @Override
@@ -117,7 +117,7 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
     }
 /**
  * Method which takes employee data and saves into employees table
- * @param employee
+ * @param employee new value of employee
  * @return Boolean value which notifies whether data has been inserted into table or not.
  */
     @Override
@@ -233,8 +233,8 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
        
 /**
  * method which update the employee information.
- * @param employee
- * @return 
+ * @param employee new value of employee
+ * @return boolean flag isUpdate which notifies whether table has been updated or not
  */
     @Override
     public Boolean updateEmployeeInfo(Employee employee) {
@@ -333,9 +333,9 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
             
 
     } 
-    /**
-    * 
+   /**
     * Method getCurrentDate which returns current date.
+    * @return current date
     */
     public String getCurrentDate(){
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

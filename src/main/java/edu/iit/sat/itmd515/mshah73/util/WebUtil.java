@@ -21,8 +21,8 @@ public class WebUtil {
 
     /**
      *
-     * @param param
-     * @return
+     * @param param new value of @param empLastName new value of empLastName
+     * @return result which notifies whether data is empty or not
      */
     public static String trimParam(String param) {
         if (isEmpty(param)) {
