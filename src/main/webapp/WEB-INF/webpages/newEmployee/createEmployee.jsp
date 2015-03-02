@@ -36,7 +36,7 @@
   </div>
     
     <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">Date of Birth:</label>
+    <label for="inputPassword3" class="col-sm-2 control-label">Date of Birth:<span style="color:red">*</span></label>
       <input type="date" name="date" style="margin-left: 16px;border-radius: 8px;
              padding: 5px;
              border-color: #DFDFDF;">
@@ -45,7 +45,7 @@
     </c:if>
     </div>
 <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">Gender:</label>
+    <label for="inputPassword3" class="col-sm-2 control-label">Gender:<span style="color:red">*</span></label>
     
 <div class="radio">
     <label  style="margin-left: 15px;">

@@ -26,7 +26,7 @@ import javax.sql.DataSource;
 
 /**
  *
- * @author mshah
+ * @author mshah73
  */
 @JdbcEmployeeRepository
 public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
@@ -40,6 +40,10 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
     public JdbcEmployeeRepositoryImpl() {
     }
 
+    /**
+     * Method which returns all employees list from employees table.
+     * @return  list of employees.
+     */
     @Override
     public Collection<Employee> findAll() {
 
@@ -66,7 +70,11 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
             return employee;
         }
     }
-
+/**
+ * Method which returns single  employee details.
+ * @param id
+ * @return individual employee detail.
+ */
     @Override
     public Employee findById(Long id) {
 
@@ -87,8 +95,8 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
             else
             {
                 /**
-                 * Case as some of the department entry is missing indept_emp table
-                 * So it only fetches the data from employees table
+                 * Case as some of the department entry is missing in dept_emp table
+                 * So it only fetches the data from employees table.
                  */
             Statement s = c.createStatement();
             rs = s.executeQuery("select  * from employees where emp_no="+id);
@@ -107,7 +115,11 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
         
         return null;
     }
-
+/**
+ * Method which takes employee data and saves into employees table
+ * @param employee
+ * @return Boolean value which notifies whether data has been inserted into table or not.
+ */
     @Override
     public Boolean saveEmployeeInfo(Employee employee) {
         
@@ -126,7 +138,7 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
            try (Connection c = dataSource.getConnection()) {
                
                /**
-                * Retrive all data from Model Employee
+                * Retrive all data from Model Employee.
                 */
             
             fName = employee.getEmpFirstname();
@@ -137,7 +149,7 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
             Statement statement = c.createStatement();
             
             /**
-             * Query toget max id toinsert new employee record
+             * Query to get max id to insert new employee record.
              */
             ResultSet rs = statement.executeQuery("select max(emp_no)as maxID from employees;");
              while (rs.next()) {
@@ -145,7 +157,7 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
             }
             
              /**
-              * First check whether department is already in tableor not.
+              * First check whether department is already in table or not.
               */
              
              rs = statement.executeQuery("select dept_no from departments where dept_name = '"+deptName+"';");
@@ -158,7 +170,7 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
              else
              {      
                     /**
-                    * Query to get max department id to insert record into department table
+                    * Query to get max department id to insert record into department table.
                     */
                    rs = statement.executeQuery("select max(dept_no) Deptid from departments;");
 
@@ -166,7 +178,7 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
                       dept_id = rs.getString("Deptid");
 
                       /**
-                      *  Form new deptid frommax dept id from departments table
+                      *  Form new deptid from max dept id from departments table.
                       */
                       int deptID = Integer.parseInt(dept_id.substring(1));
                        deptID = deptID +1; 
@@ -176,28 +188,28 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
 
             
             /**
-             * Make operation of addition(i.e ID +1) on id to insert new row into table
+             * Make operation of addition(i.e ID +1) on id to insert new row into table.
              */
             emp_id= emp_id+1;
             /**
-             * Call method getCurrentdate in order to get current date into  table employees
+             * Call method getCurrentdate in order to get current date into  table employees.
              */
             currentDate = getCurrentDate();
             
             LOG.info("Date 2"+currentDate);
        
             /**
-             * Insert records into employees table
+             * Insert records into employees table.
              */
            statement.executeUpdate("INSERT INTO employees " + "VALUES ("+emp_id +",'"+bdate +"','"+fName +"','"+lName +"','"+gender +"','"+currentDate +"')");
           /**
-           * Insert records into departments table ONLY if its new department otherwise skip this insert query
+           * Insert records into departments table ONLY if its new department otherwise skip this insert query.
            */
            if(!isDepPresent){
              statement.executeUpdate("INSERT INTO departments " + "VALUES ('"+dept_id +"','"+deptName +"')");
            }
             /**
-            * Insert record into dept_emp table
+            * Insert record into dept_emp table.
             */
            
            LOG.info("INSERT INTO dept_emp " + " VALUES ("+emp_id +",'"+dept_id +"','"+currentDate +"','"+currentDate +"')");
@@ -205,7 +217,7 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
             statement.executeUpdate("INSERT INTO dept_emp " + " VALUES ("+emp_id +",'"+dept_id +"','"+currentDate +"','"+currentDate +"')");
            
            /**
-            * Set the flag true on successful insertion on all three records
+            * Set the flag true on successful insertion on all three records.
             */
            isSave = true;
                    
@@ -218,17 +230,12 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
         return isSave;
     }
     
-        /**
-         * 
-         * Method getCurrentDate which returns current date
-         */
-        public String getCurrentDate(){
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = new Date();
-            return dateFormat.format(date);
-
-        }
-
+       
+/**
+ * method which update the employee information.
+ * @param employee
+ * @return 
+ */
     @Override
     public Boolean updateEmployeeInfo(Employee employee) {
         
@@ -259,7 +266,9 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
             if (rs.next()) {
                dept_no = rs.getString("dept_no");
             }      
-            
+            /**
+             * Update query which updates the data into employee and department table.
+             */
             String updateEmployee = "update employees set first_name = '"+upFname+"',last_name = '"+upLname+"'  where emp_no = "+empId+";";
             String updateDepartment = "update departments set dept_name = '"+upDname+"'  where dept_no = '"+dept_no+"' ";
             
@@ -289,7 +298,7 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
             
             
             /**
-             * Extract dep_id from department table to fetch 
+             * Extract dep_id from department table to fetch.
              */
             String getDeptNo = "select dept_no from dept_emp where emp_no ="+empId;
   
@@ -299,6 +308,9 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
                dept_no = rs.getString("dept_no");
             }      
             
+            /**
+             * Delete query which delete the row from employee,department  and dep_emp table.
+             */
             String deleteEmployee = "delete from employees where emp_no = "+empId+";";
             String deleteDepEmp = "delete from dept_emp where emp_no = "+empId+";";
             String deleteDepartment = "delete from departments where dept_no= '"+dept_no+"'";
@@ -320,5 +332,15 @@ public class JdbcEmployeeRepositoryImpl implements EmployeeRepository {
         return null;
             
 
-    }  
+    } 
+    /**
+    * 
+    * Method getCurrentDate which returns current date.
+    */
+    public String getCurrentDate(){
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            return dateFormat.format(date);
+
+        }
 }

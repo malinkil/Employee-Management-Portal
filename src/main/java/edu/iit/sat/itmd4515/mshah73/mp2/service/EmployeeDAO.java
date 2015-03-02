@@ -21,7 +21,7 @@ import javax.sql.DataSource;
  annotation @Stateless).  You could then refer to this with @EJB annotation
  in other Servlet code
  *
- * @author spyrisos
+ * @author mshah73
  */
 @Stateless
 public class EmployeeDAO {

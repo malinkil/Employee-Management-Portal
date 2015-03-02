@@ -69,13 +69,18 @@ public class EmployeeController extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/webpages/employeeInfo/employeeData.jsp").forward(request, response);
                 break;
             case "/create":
+                /**
+                 * Create/Save new employee details.
+                 * Redirect to createEMployee.jsppage
+                 */
                 LOG.info("Dispatching to /createEMployee");
-                //request.setAttribute("employees", svc.findEmployee());
                 request.getRequestDispatcher("/WEB-INF/webpages/newEmployee/createEmployee.jsp").forward(request, response);
                 break;
             case "/home":
-                LOG.info("Dispatching to /createEMployee");
-                
+                LOG.info("Dispatching to /home");
+                /**
+                 * Redirect to home page.
+                 */
                 request.getRequestDispatcher("/WEB-INF/webpages/homepage/home.jsp").forward(request, response);
                 break;
             case "/updatereq":
@@ -96,12 +101,14 @@ public class EmployeeController extends HttpServlet {
                 
                 if(WebUtil.isEmpty(request.getParameter("id"))){
                  LOG.warning("ID was not passed as a parameter.");
-                 messages.put("No ID Error", "This is a     from your controller.  Please enter an ID.");
+                 messages.put("No ID Error", "This is a from your controller.  Please enter an ID.");
                  throw new ServletException("No ID was passed.  Try again!");
              }
 
                Long updateActId = Long.parseLong(request.getParameter("id"));
-                
+                /**
+                 * Fetch all details from user.
+                 */
                 String upFname = request.getParameter("first_name");
                 String upLname = request.getParameter("last_name");
                 String upDname = request.getParameter("dept_name");
@@ -109,6 +116,9 @@ public class EmployeeController extends HttpServlet {
                 Employee upEmp = new Employee(updateActId,upFname,upLname,upDname);
                 
                 Boolean upResult = svc.updateEmployee(upEmp);
+                /**
+                 * Set attribute which is going to be use by jsp page to display the data.
+                 */
                 request.setAttribute("updtEmpoloyee", upResult);
                 request.setAttribute("employees", svc.findEmployee());
                 request.getRequestDispatcher("/WEB-INF/webpages/employeeInfo/employeeList.jsp").forward(request, response);
@@ -141,7 +151,7 @@ public class EmployeeController extends HttpServlet {
                 LOG.info("Date "+date);
 
                 /**
-                 * Check for  server side validation for all user input field that is mandatory
+                 * Check for  server side validation for all user input field that is mandatory.
                  */
                 
                 if(fname.isEmpty() || lname.isEmpty() || dname.isEmpty() || gender == null  || date.isEmpty() )
