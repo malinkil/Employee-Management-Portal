@@ -21,8 +21,7 @@
             </li>
             <li style="background-color: #F6F2FC;" class="list-group-item">
                 <a  href="apidocs/index.html">Javadocs</a>
-            </li>
-            
+            </li> 
         </ul>
 </div>
 
