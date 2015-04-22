@@ -3,7 +3,7 @@
 <%@include file="/WEB-INF/header.jspf" %>
 <div class="container">
 <form class="form-horizontal" action="save" method="POST">
-    <h4 style="margin-left: 5px">Enter New Employee Information</h4><hr>
+    <h4 style="margin-left: 5px">Enter Employee Information</h4><hr>
   <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">First Name: <span style="color:red">*</span></label>
     <div class="col-sm-10">

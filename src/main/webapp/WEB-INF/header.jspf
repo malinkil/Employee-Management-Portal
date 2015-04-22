@@ -1,37 +1,33 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" style="background-color: #E9EAED;">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Welcome | Employee Management</title>
-        <link rel="stylesheet" href="css/bootstrap.min.css" />  
+        <!--link rel="stylesheet" href="css/bootstrap.min.css" /-->  
     </head>
     <body>
-<div>
-<nav class="navbar navbar-default" role="navigation" style="
-    height: 100px;
-    margin-top: 22px;
-    background-color: #644A8C;
-">
+<div >
+<nav class="navbar navbar-default" role="navigation">
         <div class="container" style="margin-top: 28px;">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
    
-                <a class="navbar-brand" style="color: #ffffff;margin-left: -372px;" href="home">Assignment 2 - MP2</a>
+                <a class="navbar-brand" style="color: #000;margin-left: -372px;" href="home">Assignment 2 - MP2</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a style="color: #ffffff;" href="home">Home</a>
+                        <a style="color: #000;" href="home">Home</a>
                     </li>
                     <li>
-                        <a style="color: #ffffff;" href="create">Create</a>
+                        <a style="color: #000;" href="create">Create</a>
                     </li>
                     <li>
-                        <a style="color: #ffffff;" href="employees">Employees List</a>
+                        <a style="color: #000;" href="employees">Employees List</a>
                     </li>
                 </ul>
             </div>

@@ -8,27 +8,27 @@
     <c:if test="${not empty requestScope.delEmpoloyee}">
        <div style="padding:10px;font-weight: bold;color: red;font-style: italic">Record deleted successfully</div> 
    </c:if>
-    <c:if test="${not empty requestScope.updtEmpoloyee}">
+    <c:if test="${not empty requestScope.updateEmployee}">
         <div style="padding:10px;font-weight: bold;color: green;font-style: italic">Record updated successfully</div> 
     </c:if>
     <c:forEach items="${requestScope.employees}" var="employee">
         <li style="margin-bottom: 12px;">
-        <a style="background-color: #F6F2FC;" href="employee?id=${employee.employeeID}" class="list-group-item clearfix">
+        <a style="background-color: #EEE9E9;" href="employee?id=${employee.employeeID}" class="list-group-item clearfix">
             <c:out value="${employee.empFirstname}"/> ${employee.empLastName}
 
            <span class="pull-right"> 
-            <form action="updatereq?id=${employee.employeeID}" method="POST">
-                    <input style="border-radius: 10px;width: 80px;
+            <form action="updateRequest?id=${employee.employeeID}" method="POST">
+                    <input style="border-radius: 5px;width: 60px;
                     padding: 8px;
-                    background-color: #644A8C;
+                    background-color: #8B7B8B;
                     color: white;" type="submit" value="Update">
             </form>
            </span>
            <span class="pull-right" style="margin-right: 16px">
-           <form id="deleteForm" onsubmit="return deleteFunction();" action="deletereq?id=${employee.employeeID}" method="POST">
-               <input style="border-radius: 10px;width: 80px;
+           <form id="deleteForm" onsubmit="return deleteFunction();" action="deleteRequest?id=${employee.employeeID}" method="POST">
+               <input style="border-radius: 5px;width: 60px;
                     padding: 8px;
-                    background-color: #644A8C;
+                    background-color: #8B7B8B;
                     color: white;" type="submit"  value="Delete">
             </form>
           </span>

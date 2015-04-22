@@ -3,7 +3,7 @@
 <%@include file="/WEB-INF/header.jspf" %>
 <div class="container">
   <h2>Update Employee Information</h2>
-  <form class="form-horizontal" method="post" role="form" action="updateAction?id=${requestScope.upEmployee.employeeID}">
+  <form class="form-horizontal" method="post" role="form" action="update?id=${requestScope.upEmployee.employeeID}">
     <div class="form-group">
       <label class="control-label col-sm-2" for="">First Name</label>
       <div class="col-sm-10">
